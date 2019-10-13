@@ -32,6 +32,8 @@ UI.prototype.clearTask = function() {
 
 // Show validation error
 UI.prototype.showAlert = function(message, className) {
+  // Clear any remaing alert
+  this.clearAlert();
   // Create div
   const div = document.createElement('div');
   // Add Classes
@@ -44,9 +46,16 @@ UI.prototype.showAlert = function(message, className) {
   // Insert alert
   container.insertBefore(div, buttons);
   // Timeout after 3sec
-  setTimeout(function(){
-    document.querySelector('.alert').remove();
+  setTimeout( function() {
+    ui.clearAlert();
   }, 3000);
+}
+
+UI.prototype.clearAlert = function() {
+  const currentAlert = document.querySelector('.alert')
+  if (currentAlert) {
+    currentAlert.remove();
+  }
 }
 
 // UI Constructor
@@ -85,6 +94,8 @@ document.getElementById('delete-task').addEventListener('click', function(e) {
   } else {
   // Remove from UI
   ui.deleteLastTask();
+  // Show success alert
+  ui.showAlert('Task removed!', 'success')
   // Remove last ID from Array
   idArr.pop();
   }
@@ -97,6 +108,8 @@ document.getElementById('clear-list').addEventListener('click', function(e) {
   } else {
   // Remove from UI
   ui.clearTask();
+  // Show success alert
+  ui.showAlert('List clear!', 'success')
   // Remove all ID's from Array
   idArr.length = 0;
   }
